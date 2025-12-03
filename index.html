@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco - Calcula</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🌱 Eco - Calcula</h1>
+                <p>Calcula el costo energético y el impacto ambiental de tus aparatos electrónicos</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Section: Add Device -->
+            <section class="section add-device-section">
+                <h2>Agregar Aparato Electrónico</h2>
+                <form id="deviceForm" class="form">
+                    <div class="form-group">
+                        <label for="deviceName">Nombre del aparato:</label>
+                        <input type="text" id="deviceName" placeholder="Ej: Refrigerador" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deviceWatts">Potencia (Watts):</label>
+                        <input type="number" id="deviceWatts" placeholder="Ej: 1500" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoursPerDay">Horas de uso por día:</label>
+                        <input type="number" id="hoursPerDay" placeholder="Ej: 8" min="0" max="24" step="0.5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pricePerKwh">Precio por kWh ($):</label>
+                        <input type="number" id="pricePerKwh" placeholder="Ej: 2.5" min="0" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Aparato</button>
+                </form>
+            </section>
+
+            <!-- Section: Results -->
+            <section class="section results-section">
+                <h2>Aparatos Registrados</h2>
+                <div id="devicesList" class="devices-list">
+                    <p class="empty-message">No hay aparatos registrados aún</p>
+                </div>
+            </section>
+
+            <!-- Section: Summary -->
+            <section class="section summary-section">
+                <h2>Resumen de Consumo</h2>
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <h3>Consumo Total Diario</h3>
+                        <p id="totalConsumption" class="summary-value">0 kWh</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Costo Diario</h3>
+                        <p id="totalCostDaily" class="summary-value">$0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Costo Mensual</h3>
+                        <p id="totalCostMonthly" class="summary-value">$0.00</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Costo Anual</h3>
+                        <p id="totalCostAnnual" class="summary-value">$0.00</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Environmental Impact -->
+            <section class="section impact-section">
+                <h2>Impacto Ambiental</h2>
+                <div class="impact-cards">
+                    <div class="impact-card">
+                        <h3>Emisiones CO₂</h3>
+                        <p id="co2Emissions" class="impact-value">0 kg</p>
+                        <p class="impact-description">por día</p>
+                    </div>
+                    <div class="impact-card">
+                        <h3>Equivalente a</h3>
+                        <p id="co2Equivalent" class="impact-value">0 km</p>
+                        <p class="impact-description">conduciendo un auto</p>
+                    </div>
+                    <div class="impact-card">
+                        <h3>Contaminación por PM2.5</h3>
+                        <p id="pm25Emissions" class="impact-value">0 mg</p>
+                        <p class="impact-description">por día</p>
+                    </div>
+                    <div class="impact-card">
+                        <h3>Otros Contaminantes</h3>
+                        <p id="otherEmissions" class="impact-value">0 g</p>
+                        <p class="impact-description">NOx + SO₂</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Charts -->
+            <section class="section charts-section">
+                <h2>Análisis Gráfico</h2>
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h3>Consumo por Aparato (kWh/día)</h3>
+                        <canvas id="consumptionChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Costo por Aparato ($/día)</h3>
+                        <canvas id="costChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Distribución de Consumo (%)</h3>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Proyección Mensual de Costo ($)</h3>
+                        <canvas id="projectionChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Recommendations -->
+            <section class="section recommendations-section">
+                <h2>Recomendaciones para Reducir Consumo</h2>
+                <div id="recommendationsList" class="recommendations-list">
+                    <div class="recommendation-card">
+                        <h4>💡 Consejo General</h4>
+                        <p>Apaga los aparatos cuando no los uses y evita dejarlos en standby.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Actions -->
+            <section class="section actions-section">
+                <div class="actions-buttons">
+                    <button id="exportBtn" class="btn btn-primary" style="background-color: #2E7D32;">📥 Exportar a TXT</button>
+                    <button id="clearBtn" class="btn btn-danger">🗑️ Limpiar Todos los Datos</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Eco - Calcula. Aplicación para calcular consumo energético y impacto ambiental.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
